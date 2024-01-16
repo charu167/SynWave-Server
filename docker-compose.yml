@@ -1,0 +1,29 @@
+services:
+  syncwavemongo:
+    image: mongo:latest
+    ports:
+      - '3001:27017'
+    volumes:
+      - dbdata:/db/data
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: development
+
+    environment:
+      - MONGO_URI="mongodb://syncwavemongo:27017/"
+
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+    ports:
+      - '3000:3000'
+
+    depends_on:
+      - syncwavemongo
+
+volumes:
+  dbdata:
