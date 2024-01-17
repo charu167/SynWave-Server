@@ -1,13 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-// const mongoose = require("mongoose");
-// require("dotenv").config();
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
-// //node middleware
-// app.use(express.json());
-// app.use(cors());
+//node middleware
+app.use(express.json());
+app.use(cors());
 
 // //Importing routes
 // const authRouter = require("./routes/auth.routes");
