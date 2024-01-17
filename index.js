@@ -19,7 +19,7 @@ app.use("/auth", authRouter);
 app.use("/playlists", playlistRouter);
 app.use("/user", userRouter);
 
-app.get("/cola", (req, res) => {
+app.get("/", (req, res) => {
   res.send("<h1>HIIIIIIII</h1>");
 });
 
