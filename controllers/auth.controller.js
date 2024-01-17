@@ -8,21 +8,21 @@ const User = require("../models/user.model");
 const { spotifyUserSave, googleUserSave } = require("../utility/auth.utility");
 
 //Main controllers
+
+//Getting access and refresh tokens from spotify and saving the user
 async function spotifyAuth(req, res) {
   const code = req.body.code;
   const data = {
     grant_type: "authorization_code",
     code: code,
-    redirect_uri: "http://localhost:5173/callbackspotify",
+    redirect_uri: process.env.spotify_redirect_uri,
   };
   const fromattedData = qs.stringify(data);
 
   await axios
     .post("https://accounts.spotify.com/api/token", fromattedData, {
       headers: {
-        Authorization:
-          "Basic " +
-          "M2E5NWI3YzlmYzU2NGY1ZmEzOTJlNmRmMTRlNTA1YjY6M2RjMWRlNzNjYjJhNDc1NDg2MzI5ZTU3ZTkzYTRjZTY=",
+        Authorization: "Basic " + process.env.spotify_basic_auth_token,
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
@@ -38,6 +38,7 @@ async function spotifyAuth(req, res) {
     });
 }
 
+//Getting access and refresh tokens from google and saving the user
 async function googleAuth(req, res) {
   const code = req.body.code;
 
@@ -45,7 +46,7 @@ async function googleAuth(req, res) {
     code: code,
     client_id: process.env.google_client_id,
     client_secret: process.env.google_client_secret,
-    redirect_uri: "http://localhost:5173/callbackgoogle",
+    redirect_uri: process.env.google_redirect_uri,
     grant_type: "authorization_code",
   };
 
@@ -68,6 +69,7 @@ async function googleAuth(req, res) {
     .catch((error) => res.json(error));
 }
 
+//Sptoify Token Refresh
 async function refreshSpotify(req, res) {
   const user = await User.findOne({ spotifyID: req.body.spotifyID });
 
@@ -81,8 +83,7 @@ async function refreshSpotify(req, res) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization:
-            "Basic M2E5NWI3YzlmYzU2NGY1ZmEzOTJlNmRmMTRlNTA1YjY6M2RjMWRlNzNjYjJhNDc1NDg2MzI5ZTU3ZTkzYTRjZTY=",
+          Authorization: "Basic " + process.env.spotify_basic_auth_token,
         },
       }
     )
@@ -94,6 +95,7 @@ async function refreshSpotify(req, res) {
     });
 }
 
+//Google Token Refresh
 async function refreshYoutube(req, res) {
   const user = await User.findOne({ spotifyID: req.body.spotifyID });
 
@@ -101,9 +103,8 @@ async function refreshYoutube(req, res) {
     .post(
       "https://oauth2.googleapis.com/token",
       qs.stringify({
-        client_id:
-          "922148405888-lg7961squh8cmbn0bimklriu3dl1il5d.apps.googleusercontent.com",
-        client_secret: "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",
+        client_id: process.env.google_client_id,
+        client_secret: process.env.google_client_secret,
         refresh_token: user.auth.googleRefreshToken,
         grant_type: "refresh_token",
       }),

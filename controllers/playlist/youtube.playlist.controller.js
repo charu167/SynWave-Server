@@ -1,13 +1,13 @@
 const { default: axios } = require("axios");
 
-//Main Controllers
+//Get youtube playlist items and send items array to client, each element of the array is a track name
 async function getYoutubePlaylist(req, res) {
   await axios
     .get("https://www.googleapis.com/youtube/v3/playlistItems", {
       params: {
         part: "snippet",
         playlistId: req.headers.id,
-        key: "AIzaSyAJn2GD8tKEysknA4gIsLIMf7df1zUg8J4",
+        key: process.env.google_api_key,
         pageToken: req.headers.nextpagetoken,
       },
     })
@@ -26,6 +26,7 @@ async function getYoutubePlaylist(req, res) {
     });
 }
 
+//Take in playlist name as input and create a playlist on youtube with that name
 async function createYoutubePlaylist(req, res) {
   await axios
     .post(
@@ -56,6 +57,7 @@ async function createYoutubePlaylist(req, res) {
     });
 }
 
+//Search video on youtube and send videoID as response
 async function searchTrack(req, res) {
   await axios
     .get("https://www.googleapis.com/youtube/v3/search", {
@@ -63,7 +65,7 @@ async function searchTrack(req, res) {
         part: "snippet",
         q: req.query.q,
         type: "video",
-        key: "AIzaSyAJn2GD8tKEysknA4gIsLIMf7df1zUg8J4",
+        key: process.env.google_api_key,
       },
     })
     .then((response) => {
@@ -74,6 +76,7 @@ async function searchTrack(req, res) {
     });
 }
 
+//Add a single track to youtube playlist
 async function addTrackstoYoutube(req, res) {
   await axios
     .post(

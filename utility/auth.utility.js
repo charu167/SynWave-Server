@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 //Importing db models
 const User = require("../models/user.model");
 
+//Get spotify user details and save them to db
 async function spotifyUserSave(access_token, refreshToken) {
   await axios
     .get("https://api.spotify.com/v1/me", {
@@ -40,6 +41,7 @@ async function spotifyUserSave(access_token, refreshToken) {
     });
 }
 
+//Get google user details and update the user collection in db
 async function googleUserSave(access_token, refresh_token) {
   await axios
     .get("https://www.googleapis.com/oauth2/v2/userinfo", {

@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
+
+//node middleware
 app.use(express.json());
 app.use(cors());
 
@@ -17,17 +19,16 @@ app.use("/auth", authRouter);
 app.use("/playlists", playlistRouter);
 app.use("/user", userRouter);
 
-app.get("/", (req, res) => {
+app.get("/cola", (req, res) => {
   res.send("<h1>HIIIIIIII</h1>");
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("Listening on port 3000");
+  console.log(`Listening on port ${process.env.PORT || 3000}`);
 });
 
-// console.log(process.env.MONGO_URI);
 mongoose
-  .connect("mongodb://syncwavemongo:27017/")
+  .connect(process.env.MONGO_URI)
   .then((e) => {
     console.log("Connected to mongoose");
   })

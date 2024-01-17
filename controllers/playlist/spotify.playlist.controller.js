@@ -2,6 +2,7 @@ const { default: axios } = require("axios");
 const qs = require("qs");
 const User = require("../../models/user.model");
 
+//Get spotify playlist and send the items array to client, each array element is a track name
 async function getSpotifyPlaylist(req, res) {
   await axios
     .get(`https://api.spotify.com/v1/playlists/${req.headers.id}`, {
@@ -21,6 +22,7 @@ async function getSpotifyPlaylist(req, res) {
     });
 }
 
+//Take in playlist name as input and create a playlist on spotify with that name
 async function createSpotifyPlaylist(req, res) {
   await axios
     .post(
@@ -43,6 +45,7 @@ async function createSpotifyPlaylist(req, res) {
     });
 }
 
+//Search track on spotify
 async function searchTrackSpotify(req, res) {
   await axios
     .get("https://api.spotify.com/v1/search", {
@@ -63,6 +66,7 @@ async function searchTrackSpotify(req, res) {
     });
 }
 
+//Add multiple tracks to spotify playlist
 async function addTrackstoSpotify(req, res) {
   const uris = req.body.uris.map((element) => {
     return `spotify:track:${element}`;
