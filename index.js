@@ -7,8 +7,7 @@ const app = express();
 
 //node middleware
 app.use(express.json());
-app.use(cors()); 
-
+app.use(cors());
 
 //Importing routes
 const authRouter = require("./routes/auth.routes");
@@ -16,7 +15,7 @@ const playlistRouter = require("./routes/playlist.routes");
 const userRouter = require("./routes/user.routes");
 
 //Routing
-app.use("/auth", authRouter);
+app.use("/auth", cors(), authRouter);
 app.use("/playlists", playlistRouter);
 app.use("/user", userRouter);
 
