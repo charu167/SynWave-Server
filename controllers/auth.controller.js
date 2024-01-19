@@ -27,11 +27,11 @@ async function spotifyAuth(req, res) {
       },
     })
     .then(async (response) => {
-      res.status(200).json({ spotifyAccessToken: response.data.access_token });
       await spotifyUserSave(
         response.data.access_token,
         response.data.refresh_token
       );
+      res.status(200).json({ spotifyAccessToken: response.data.access_token });
     })
     .catch((error) => {
       res.json(error);

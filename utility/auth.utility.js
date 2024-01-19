@@ -37,7 +37,7 @@ async function spotifyUserSave(access_token, refreshToken) {
       }
     })
     .catch((error) => {
-      res.json(error);
+      res.json("DB Error Spotify: ", error);
     });
 }
 
@@ -61,7 +61,7 @@ async function googleUserSave(access_token, refresh_token) {
         { new: true }
       );
     })
-    .catch((error) => res.json(error));
+    .catch((error) => res.json("DB Error Google", error));
 }
 
 module.exports = { spotifyUserSave, googleUserSave };
