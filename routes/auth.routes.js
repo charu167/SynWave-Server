@@ -9,7 +9,7 @@ const {
   refreshYoutube,
 } = require("../controllers/auth.controller");
 
-router.post("/spotify", spotifyAuth);
+router.post("/spotify", cors(), spotifyAuth);
 router.post("/google", cors(), googleAuth);
 router.post("/refreshSpotify", refreshSpotify);
 router.post("/refreshYoutube", refreshYoutube);
