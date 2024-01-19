@@ -7,7 +7,7 @@ const app = express();
 
 //node middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 //Importing routes
 const authRouter = require("./routes/auth.routes");
